@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         color: "#fff"
     }, container: {
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: "grey",
     }
 });

@@ -4,24 +4,47 @@ import { Timer } from 'react-native-stopwatch-timer'
 
 export const TimerComp = () => {
     const [isTimerStart, SetIsTimerStart] = useState(false);
-    const [timerDuration, setTimerDuration] = useState(10000);
+    const [timerDuration, setTimerDuration] = useState(50000);
     const [resetTimer, setResetTimer] = useState(false);
+    const [textInputValue, setTextInputValue] = useState(55);
+
+    let myNumber = textInputValue;
+
+
+    const handleTextInput = (value) => {
+      setTextInputValue(value);
+    }
+    
+    const setTimer = () => {
+      
+      // SetIsTimerStart(false);
+      // setResetTimer(true);
+      setTimerDuration(myNumber);
+
+
+    }
 
 
     return(
       <View style={styles.container}>
+        <TextInput style={styles.textInput} onChangeText={handleTextInput} value={textInputValue} keyboardType="numeric" />
+        
+        <Pressable style={styles.button} onPress={setTimer}>
+          <Text>Set Timer</Text>
+        </Pressable>
+
         <Timer
-          totalDuration={timerDuration}secs
+          totalDuration={timerDuration}msecs
           start={isTimerStart}
           reset={resetTimer}
         />
 
-        <Pressable style={styles.buttonText} onPress={() => { SetIsTimerStart(!isTimerStart); setResetTimer(false); }}>
+        <Pressable style={styles.button} onPress={() => { SetIsTimerStart(!isTimerStart); setResetTimer(false); }}>
           <Text> {!isTimerStart ? 'START' : 'STOP'} </Text>
         </Pressable>
 
         <Pressable
-        style={styles.buttonText}
+        style={styles.button}
           onPress={() => {
             SetIsTimerStart(false);
             setResetTimer(true);
@@ -41,9 +64,21 @@ const styles = StyleSheet.create({
     marginTop:50,
 
   },
-  buttonText:{
+  button:{
     backgroundColor: "teal",
-    alignContent:"center"
+    alignContent:"center",
+    fontSize:50,
+    margin:10,
+    padding: 10,
+
+
+  },
+  textInput:{
+    backgroundColor:"grey",
+    width: "40%",
+    padding:10,
+    margin:10,
   }
+
   
 })

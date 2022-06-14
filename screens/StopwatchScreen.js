@@ -1,17 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { View, Pressable, Text, Flatlist, Stylesheet, Button, TextInput, StyleSheet } from 'react-native';
+import { View, Pressable, Text, FlatList, Stylesheet, Button, TextInput, StyleSheet, ImageBackground, Dimensions } from 'react-native';
 import { Header } from '../components/Header';
+// import { findAll } from '../database/localDb';
 
 
 export const StopwatchScreen = () => {
     const [isTime, setIsTime] = useState(false);
     const [time, setTime] = useState(0);
-    const [lapTime, setLapTime] = useState(0);
+    const [lapTime, setLapTime] = useState([]);
     // const [buttonName, setButtonName] = useState("Start");
+
+    let minutes = ("0" + Math.floor((time / 60000) % 60)).slice(-2);
+    let seconds = ("0" + Math.floor((time / 1000) % 60)).slice(-2);
+    let milliseconds = ("0" + ((time / 10) % 100)).slice(-2);
+
+// En bättre lösning är Date() å jämföra med två olika Date()
     
-// Intevall kommer att kalla på en function på specifika intervall i millisekunder.
-// Detta görs tills clearInterval() körs eller windows stängs
 useEffect( () => {
     let interval = null;
 
@@ -28,6 +33,21 @@ useEffect( () => {
 
 },[isTime])
 
+const saveLapTime = () => {
+    setLapTime(`${minutes}:${seconds}:${milliseconds}`);
+    console.log(lapTime);
+}
+
+// const _renderItem = (lapTime) => {
+//     return(
+//         <View>
+//             <Text>{lapTime}</Text>
+//         </View>
+//     )
+// }
+
+
+
 
 // ("0"+((time / 10) % 100)).slice(-2) slice-2 gör att det endast finns 2 chars. Utan slice får vi 2 och 3.
 // Utan detta trick så printar inte den 01,02 osv. 
@@ -36,22 +56,33 @@ useEffect( () => {
 //     <Pressable style={styles.button} onPress={ () => {setIsTime(false); setButtonName("Resume")}}>
 //         <Text>Pause</Text>
 //     </Pressable>
-//     )}
+//     )} 
 
     return(
         <View style={styles.container}>
-            <StatusBar style="auto" />
+            <ImageBackground source={require("../assets/background2.jpg")}
+            resizeMode="cover"
+            style={styles.backgroundImage}>
+                {/* <StatusBar translucent backgroundColor='transparent' /> */}
+                <StatusBar style="auto" />
+
+                <View style={styles.container}>
+                
+            
+            
+           
             <Header />
+            
 
             <View style={styles.timers}>
-                <Text style={styles.timers}>{("0" + Math.floor((time / 60000) % 60)).slice(-2)}:</Text>
-                <Text style={styles.timers}>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}:</Text>
-                <Text style={styles.timers}>{("0" + ((time / 10) % 100)).slice(-2)}</Text>
+                <Text style={styles.timers}>{minutes}:</Text>
+                <Text style={styles.timers}>{seconds}:</Text>
+                <Text style={styles.timers}>{milliseconds}</Text>
             </View>
 
             <View style={styles.buttonContainer}>
 
-            <Pressable style={styles.button} onPress={ () => {}}>
+            <Pressable style={styles.button} onPress={saveLapTime}>
                 <Text>Lap</Text>
             </Pressable>
 
@@ -73,11 +104,18 @@ useEffect( () => {
                 <Text>Pause</Text>
             </Pressable>
             
-        
+    
+           </View>
 
+        {/* <FlatList 
+        data={lapTime} 
+        renderItem={_renderItem} 
+        keyExtractor={ (item,index) => index} /> */}
+    
+           
            </View>
            
-            
+           </ImageBackground>
         </View>
     )
 
@@ -86,7 +124,6 @@ useEffect( () => {
 
 const styles = StyleSheet.create({
     container:{
-        marginTop:50,
         flex: 1,
         alignItems:"center",
         
@@ -109,5 +146,10 @@ const styles = StyleSheet.create({
     timers:{
         flexDirection: "row",
         fontSize: 40,
+    },
+    backgroundImage:{
+        width: Dimensions.get("screen").width,
+        height: Dimensions.get("screen").height
+
     }
 })

@@ -6,7 +6,7 @@ export const TimerComp = () => {
     const [isTimerStart, SetIsTimerStart] = useState(false);
     const [timerDuration, setTimerDuration] = useState(50000);
     const [resetTimer, setResetTimer] = useState(false);
-    const [textInputValue, setTextInputValue] = useState("0");
+    const [textInputValue, setTextInputValue] = useState(0);
 
     
 
@@ -17,17 +17,29 @@ export const TimerComp = () => {
     
     const setTimer = () => {
 
+      setTimerDuration(textInputValue)
       
-      SetIsTimerStart(false);
-      setResetTimer(true);
-       setTimerDuration(parseInt(textInputValue));
+      // SetIsTimerStart(false);
+      // setResetTimer(true);
+      // if(textInputValue.length === 0 ){
+      //   setTimerDuration(0);
+      // } else {
+      //     setTimerDuration(parseInt(textInputValue));
+      // }
+       
     }
-
+0
 
     return(
       <View style={styles.container}>
         <Text>SMALL SIMPLE FAIL TIMER</Text>
-        <TextInput style={styles.textInput} keyboardType="numeric" onChangeText={setTextInputValue} value={textInputValue} />
+        <TextInput 
+        style={styles.textInput} 
+        keyboardType="numeric" 
+        onChangeText={(textInput)=>setTextInputValue(parseInt(textInput))} 
+        value={textInputValue} 
+        placeholder={"Time in milliseconds"} 
+        maxLength={9}/>
         
         <Pressable style={styles.button} onPress={setTimer}>
           <Text>Set Timer</Text>

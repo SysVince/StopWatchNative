@@ -6,10 +6,19 @@ import { StopwatchScreen } from './screens/StopwatchScreen';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import { MainStack } from './navigations/MainStack';
 import { TimerScreen } from './screens/TimerScreen';
+import { useEffect } from 'react';
+import { initDB } from './database/localdb';
 
 export default function App() {
 
   const BottomTab = createBottomTabNavigator();
+
+
+  useEffect( () => {
+    initDB()
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
+  }, []);
 
   return (
     <NavigationContainer>

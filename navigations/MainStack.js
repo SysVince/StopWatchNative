@@ -9,10 +9,13 @@ export const MainStack = () => {
     // <StackNavigation.Screen
     // name="TimerScreen"
     // component={TimerScreen} />
+
+    // Har inga Stacknivåer än
 return(
 
     <StackNavigation.Navigator>
         <StackNavigation.Screen 
+        options={{ headerShown:false }}
         name="StopwatchScreen"
         component={StopwatchScreen} />
 

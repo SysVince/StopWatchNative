@@ -4,7 +4,7 @@ export const Header = () =>{
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Todo App 3001!</Text>
+            <Text style={styles.title}>Stopwatch Timer App 3000!</Text>
         </View>
     )
    
@@ -18,6 +18,6 @@ const styles = StyleSheet.create({
         color: "#fff"
     }, container: {
         alignItems: "center",
-        backgroundColor: "grey",
+        
     }
 });

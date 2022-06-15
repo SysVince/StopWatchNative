@@ -4,7 +4,7 @@ import { StopwatchScreen } from "../screens/StopwatchScreen";
 export const MainStack = ({ dbInitialized }) => {
   const StackNavigation = createNativeStackNavigator();
 
-  // Finns inga Stacknivåer än
+  // Finns inga Stacknivåer i dagsläget
   return (
     <StackNavigation.Navigator>
       <StackNavigation.Screen

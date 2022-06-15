@@ -4,12 +4,7 @@ import {
   Pressable,
   Text,
   FlatList,
-  Stylesheet,
-  Button,
-  TextInput,
   StyleSheet,
-  ImageBackground,
-  Dimensions,
 } from "react-native";
 import { clearLapTimeTable, findAll, insert } from "../database/localdb";
 
@@ -75,7 +70,7 @@ export const Stopwatch = ({ lapTime, setLapTime }) => {
 
       <View style={styles.buttonContainer}>
         <Pressable style={styles.button} onPress={saveLapTime}>
-          <Text>Lap</Text>
+          <Text style={styles.buttonText}>Lap</Text>
         </Pressable>
 
         <Pressable style={styles.button} onPress={() => setIsTime(true)}>
@@ -129,13 +124,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   button: {
+    justifyContent: "center",
     backgroundColor: "teal",
     borderRadius: 6,
-    padding: 5,
+    padding: 6,
     margin: 10,
   },
   buttonText: {
-    fontSize: 15,
+    fontSize: 18,
   },
   timersContainer: {
     flexDirection: "row",

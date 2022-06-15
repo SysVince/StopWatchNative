@@ -1,91 +1,110 @@
-import { useState } from "react"
-import { View, Pressable, Text, Flatlist, Stylesheet, Button, TextInput, StyleSheet } from 'react-native';
-import { Timer } from 'react-native-stopwatch-timer'
+import { useState } from "react";
+import {
+  View,
+  Pressable,
+  Text,
+  TextInput,
+  StyleSheet,
+} from "react-native";
+import { Timer } from "react-native-stopwatch-timer";
 
 export const TimerComp = () => {
-    const [isTimerStart, SetIsTimerStart] = useState(false);
-    const [timerDuration, setTimerDuration] = useState(50000);
-    const [resetTimer, setResetTimer] = useState(false);
-    const [textInputValue, setTextInputValue] = useState("");
+  const [isTimerStart, SetIsTimerStart] = useState(false);
+  const [timerDuration, setTimerDuration] = useState(50000);
+  const [resetTimer, setResetTimer] = useState(false);
+  const [textInputValue, setTextInputValue] = useState("");
 
-  
-    
-    const setTimer = () => {
+  const setTimer = () => {
 
-      // setTimerDuration(textInputValue)
-      
-      SetIsTimerStart(false);
-      setResetTimer(true);
-      if(textInputValue.length === 0 || !parseInt(textInputValue)){
-        setTimerDuration(0);
-      } else {
-          setTimerDuration(parseInt(textInputValue));
-      }
-       
+    SetIsTimerStart(false);
+    setResetTimer(true);
+    if (textInputValue.length === 0 || !parseInt(textInputValue)) {
+      setTimerDuration(0);
+    } else {
+      setTimerDuration(parseInt(textInputValue));
     }
+  };
 
-    return(
-      <View style={styles.container}>
+  return (
+    <View style={styles.container}>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.textInput}
+          keyboardType="numeric"
+          onChangeText={setTextInputValue}
+          value={textInputValue}
+          placeholder={"Time in milliseconds"}
+          maxLength={9}
+        />
 
-        <TextInput 
-        style={styles.textInput} 
-        keyboardType="numeric" 
-        onChangeText={setTextInputValue} 
-        value={textInputValue} 
-        placeholder={"Time in milliseconds"} 
-        maxLength={9}/>
-        
         <Pressable style={styles.button} onPress={setTimer}>
-          <Text>Set Timer</Text>
+          <Text style={styles.buttonText}>Set Timer</Text>
         </Pressable>
+      </View>
 
+      <View style={styles.timers}>
         <Timer
-          totalDuration={timerDuration}msecs
+          totalDuration={timerDuration}
+          msecs
           start={isTimerStart}
           reset={resetTimer}
         />
+      </View>
 
-        <Pressable style={styles.button} onPress={() => { SetIsTimerStart(!isTimerStart); setResetTimer(false); }}>
-          <Text> {!isTimerStart ? 'START' : 'STOP'} </Text>
+      <View style={styles.inputContainer}>
+        <Pressable
+          style={styles.button}
+          onPress={() => {
+            SetIsTimerStart(!isTimerStart);
+            setResetTimer(false);
+          }}
+        >
+          <Text style={styles.buttonText}>
+            {" "}
+            {!isTimerStart ? "START" : "STOP"}{" "}
+          </Text>
         </Pressable>
 
         <Pressable
-        style={styles.button}
+          style={styles.button}
           onPress={() => {
             SetIsTimerStart(false);
             setResetTimer(true);
-          }}>
-          <Text>RESET</Text>
+          }}
+        >
+          <Text style={styles.buttonText}>RESET</Text>
         </Pressable>
-
       </View>
-    )
-}
-
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    alignItems:"center",
-    justifyContent:"center",
-    marginTop:50,
-
+  container: {
+    alignItems: "center",
+    justifyContent: "center",
   },
-  button:{
+  inputContainer: {
+    flexDirection: "row",
+  },
+  timers: {
+    marginTop: 50,
+    marginBottom: 10,
+  },
+  button: {
+    justifyContent: "center",
     backgroundColor: "teal",
-    alignContent:"center",
-    fontSize:50,
-    margin:10,
-    padding: 10,
-
-
+    borderRadius: 6,
+    padding: 6,
+    margin: 10,
   },
-  textInput:{
-    backgroundColor:"grey",
+  buttonText: {
+    fontSize: 18,
+  },
+  textInput: {
+    backgroundColor: "grey",
     width: "40%",
-    padding:10,
-    margin:10,
-  }
-
-  
-})
+    padding: 10,
+    margin: 10,
+  },
+});

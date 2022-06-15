@@ -6,29 +6,31 @@ export const TimerComp = () => {
     const [isTimerStart, SetIsTimerStart] = useState(false);
     const [timerDuration, setTimerDuration] = useState(50000);
     const [resetTimer, setResetTimer] = useState(false);
-    const [textInputValue, setTextInputValue] = useState(0);
+    const [textInputValue, setTextInputValue] = useState("");
 
-    
+  
     
     const setTimer = () => {
+
+      // setTimerDuration(textInputValue)
+      
       SetIsTimerStart(false);
       setResetTimer(true);
-      // Om inget input eller input är ej ett nummer, sätt timer till 0
-      if( textInputValue.length === 0 || !parseInt(textInputValue) ){
-         setTimerDuration(0);
-       } else {
-           setTimerDuration(textInputValue);
-       }
+      if(textInputValue.length === 0 || !parseInt(textInputValue)){
+        setTimerDuration(0);
+      } else {
+          setTimerDuration(parseInt(textInputValue));
+      }
        
     }
-0
 
     return(
       <View style={styles.container}>
+
         <TextInput 
         style={styles.textInput} 
         keyboardType="numeric" 
-        onChangeText={ (textInput) => setTextInputValue(parseInt(textInput))} 
+        onChangeText={setTextInputValue} 
         value={textInputValue} 
         placeholder={"Time in milliseconds"} 
         maxLength={9}/>
@@ -55,6 +57,7 @@ export const TimerComp = () => {
           }}>
           <Text>RESET</Text>
         </Pressable>
+
       </View>
     )
 }

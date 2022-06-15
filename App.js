@@ -15,6 +15,7 @@ export default function App() {
 
   const BottomTab = createBottomTabNavigator();
 
+  
 
   useEffect( () => {
     initDB()

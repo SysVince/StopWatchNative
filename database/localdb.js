@@ -50,7 +50,7 @@ export const insert = (strLapTime) => {
 }
 
 
-export const clearLaptimeTable = () => {
+export const clearLapTimeTable = () => {
     return new Promise( (resolve, reject) => {
 
         db.transaction( (transaction) => {

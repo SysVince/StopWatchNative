@@ -60,41 +60,25 @@ const deleteLapTime = () => {
 const _renderItem = ({item}) => {
     return(
         <View style={styles.renderItem}>
-            <Text>Lap{item.id} - {item.laptime}</Text>
+            <Text style={styles.renderText}>Lap{item.id} - {item.laptime}</Text>
         </View>
     )
 }
 
 
 
-
-
-// ("0"+((time / 10) % 100)).slice(-2) slice-2 gör att det endast finns 2 chars. Utan slice får vi 2 och 3.
-// Utan detta trick så printar inte den 01,02 osv. 
-
-// {isTime && (
-//     <Pressable style={styles.button} onPress={ () => {setIsTime(false); setButtonName("Resume")}}>
-//         <Text>Pause</Text>
-//     </Pressable>
-//     )} 
-
     return(
         <View style={styles.container}>
             <ImageBackground source={require("../assets/background2.jpg")}
             resizeMode="cover"
             style={styles.backgroundImage}>
-                {/* <StatusBar translucent backgroundColor='transparent' /> */}
-                <StatusBar style="auto" />
 
-                <View style={styles.container}>
-                
-            
-            
-           
+            <StatusBar style="auto" />
+
+            <View style={styles.container}>
             <Header />
             
-
-            <View style={styles.timers}>
+            <View style={styles.timersContainer}>
                 <Text style={styles.timers}>{minutes}:</Text>
                 <Text style={styles.timers}>{seconds}:</Text>
                 <Text style={styles.timers}>{milliseconds}</Text>
@@ -106,8 +90,10 @@ const _renderItem = ({item}) => {
                 <Text>Lap</Text>
             </Pressable>
 
+
+          
             <Pressable style={styles.button} onPress={ () => setIsTime(true)}>
-                <Text>{buttonName}</Text>
+                <Text style={styles.buttonText}>{buttonName}</Text>
             </Pressable>
 
             <Pressable style={styles.button} onPress={ () => { setTime(0); 
@@ -115,21 +101,23 @@ const _renderItem = ({item}) => {
                 setButtonName("Start")
             }; 
                 }}>
-                <Text>Reset</Text>
+                <Text style={styles.buttonText}>Reset</Text>
             </Pressable>
             
             
             <Pressable style={styles.button} onPress={ () => {setIsTime(false); 
                 setButtonName("Resume")
                 }}>
-                <Text>Pause</Text>
+                <Text style={styles.buttonText}>Pause</Text>
             </Pressable>
             
            </View>
-
-           <Pressable style={styles.button} onPress={deleteLapTime}>
-                <Text>Clear All Laptimes</Text>
-            </Pressable>
+            
+           {(lapTime.length >= 1) && (
+                <Pressable style={styles.button} onPress={deleteLapTime}>
+                    <Text style={styles.buttonText}>Clear All Laptimes</Text>
+                </Pressable>
+            )} 
  
         <FlatList 
         data={lapTime} 
@@ -164,9 +152,15 @@ const styles = StyleSheet.create({
         margin:10,
         
     },
-    timers:{
+    buttonText:{
+        fontSize:15,
+    },
+    timersContainer:{
         flexDirection: "row",
-        fontSize: 40,
+        
+    },
+    timers:{
+        fontSize: 60,
     },
     backgroundImage:{
         width: Dimensions.get("screen").width,
@@ -177,6 +171,9 @@ const styles = StyleSheet.create({
         backgroundColor: "lightblue",
         padding: 10,
         margin:5,
-        borderRadius:6
+        borderRadius:6,
+    },
+    renderText:{
+        fontSize:15,
     },
 })

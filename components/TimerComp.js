@@ -9,23 +9,16 @@ export const TimerComp = () => {
     const [textInputValue, setTextInputValue] = useState(0);
 
     
-
-
-    // const handleTextInput = (value) => {
-    //   setTextInputValue(value);
-    // }
     
     const setTimer = () => {
-
-      setTimerDuration(textInputValue)
-      
       SetIsTimerStart(false);
       setResetTimer(true);
-      // if(textInputValue.length === 0 ){
-      //   setTimerDuration(0);
-      // } else {
-      //     setTimerDuration(parseInt(textInputValue));
-      // }
+      // Om inget input eller input är ej ett nummer, sätt timer till 0
+      if( textInputValue.length === 0 || !parseInt(textInputValue) ){
+         setTimerDuration(0);
+       } else {
+           setTimerDuration(textInputValue);
+       }
        
     }
 0
@@ -35,7 +28,7 @@ export const TimerComp = () => {
         <TextInput 
         style={styles.textInput} 
         keyboardType="numeric" 
-        onChangeText={(textInput)=>setTextInputValue(parseInt(textInput))} 
+        onChangeText={ (textInput) => setTextInputValue(parseInt(textInput))} 
         value={textInputValue} 
         placeholder={"Time in milliseconds"} 
         maxLength={9}/>

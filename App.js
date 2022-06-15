@@ -6,19 +6,26 @@ import { StopwatchScreen } from './screens/StopwatchScreen';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import { MainStack } from './navigations/MainStack';
 import { TimerScreen } from './screens/TimerScreen';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { initDB } from './database/localdb';
 
 export default function App() {
+
+  const [dbInitialized, setDbInitialized] = useState(false);
 
   const BottomTab = createBottomTabNavigator();
 
 
   useEffect( () => {
     initDB()
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
-  }, []);
+      .then(res => {
+      console.log(res);
+      setDbInitialized(true);
+
+      })
+      .catch(err => console.log(err))
+
+  },[]);
 
   return (
     <NavigationContainer>
@@ -27,6 +34,7 @@ export default function App() {
         options={{tabBarIcon: () => <FontAwesome5 name="stopwatch" size={24} color="black" />}}
         name="MainStack"
         component={MainStack}
+        initialParams={{dbInitialized: dbInitialized}}
         />
         <BottomTab.Screen 
         options={{tabBarIcon: () => {return <FontAwesome5 name="stopwatch-20" size={24} color="black" />}}}

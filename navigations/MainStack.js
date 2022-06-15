@@ -1,27 +1,18 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StopwatchScreen } from "../screens/StopwatchScreen";
-import { TimerScreen } from "../screens/TimerScreen";
 
-export const MainStack = () => {
+export const MainStack = ({ dbInitialized }) => {
+  const StackNavigation = createNativeStackNavigator();
 
-    const StackNavigation = createNativeStackNavigator();
-
-    // <StackNavigation.Screen
-    // name="TimerScreen"
-    // component={TimerScreen} />
-
-    // Har inga Stacknivåer än
-return(
-
+  // Finns inga Stacknivåer än
+  return (
     <StackNavigation.Navigator>
-        <StackNavigation.Screen 
-        options={{ headerShown:false }}
+      <StackNavigation.Screen
+        options={{ headerShown: false }}
         name="StopwatchScreen"
-        component={StopwatchScreen} />
-
-
+        component={StopwatchScreen}
+        initialParams={{ dbInitialized: dbInitialized }}
+      />
     </StackNavigation.Navigator>
-)
-
-
-}
+  );
+};

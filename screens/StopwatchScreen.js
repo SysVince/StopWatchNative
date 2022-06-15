@@ -2,15 +2,18 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { View, Pressable, Text, FlatList, Stylesheet, Button, TextInput, StyleSheet, ImageBackground, Dimensions } from 'react-native';
 import { Header } from '../components/Header';
+import { clearLaptimeTable, findAll, insert } from '../database/localdb';
 // import { findAll } from '../database/localDb';
 
 
-export const StopwatchScreen = () => {
+export const StopwatchScreen = ( {dbInitialized} ) => {
     const [isTime, setIsTime] = useState(false);
     const [time, setTime] = useState(0);
     const [lapTime, setLapTime] = useState([]);
-    // const [buttonName, setButtonName] = useState("Start");
+    const [buttonName, setButtonName] = useState("Start");
 
+
+    // .slice-2 gör att vi endast visar 2 character. så det visar 00:00:01 istället för 00:00:1
     let minutes = ("0" + Math.floor((time / 60000) % 60)).slice(-2);
     let seconds = ("0" + Math.floor((time / 1000) % 60)).slice(-2);
     let milliseconds = ("0" + ((time / 10) % 100)).slice(-2);
@@ -33,18 +36,35 @@ useEffect( () => {
 
 },[isTime])
 
+useEffect( () => {
+    findAll()
+    .then(res => setLapTime(res))
+}, [dbInitialized])
+
+// Första .then e res från insert(), andra är från findAll()
 const saveLapTime = () => {
-    setLapTime(`${minutes}:${seconds}:${milliseconds}`);
-    console.log(lapTime);
+    insert(`${minutes}:${seconds}:${milliseconds}`)
+    .then( () =>  findAll())
+    .then(res => setLapTime(res))
+}
+// Första .then e res från deleteAll(), andra är från findAll()
+const deleteLapTime = () => {
+    clearLaptimeTable()
+    .then(res => {
+        console.log(res);
+        return findAll();
+    })
+    .then(res => setLapTime(res))
 }
 
-// const _renderItem = (lapTime) => {
-//     return(
-//         <View>
-//             <Text>{lapTime}</Text>
-//         </View>
-//     )
-// }
+const _renderItem = ({item}) => {
+    return(
+        <View style={styles.renderItem}>
+            <Text>Lap{item.id} - {item.laptime}</Text>
+        </View>
+    )
+}
+
 
 
 
@@ -87,34 +107,38 @@ const saveLapTime = () => {
             </Pressable>
 
             <Pressable style={styles.button} onPress={ () => setIsTime(true)}>
-                <Text>Start</Text>
+                <Text>{buttonName}</Text>
             </Pressable>
 
             <Pressable style={styles.button} onPress={ () => { setTime(0); 
-            // if(!isTime){
-            //     setButtonName("Start")}; 
+            if(!isTime){
+                setButtonName("Start")
+            }; 
                 }}>
                 <Text>Reset</Text>
             </Pressable>
             
             
             <Pressable style={styles.button} onPress={ () => {setIsTime(false); 
-                // setButtonName("Resume")
+                setButtonName("Resume")
                 }}>
                 <Text>Pause</Text>
             </Pressable>
             
-    
            </View>
 
-        {/* <FlatList 
+           <Pressable style={styles.button} onPress={deleteLapTime}>
+                <Text>Clear All Laptimes</Text>
+            </Pressable>
+ 
+        <FlatList 
         data={lapTime} 
         renderItem={_renderItem} 
-        keyExtractor={ (item,index) => index} /> */}
+       keyExtractor={ (item, index) => index} 
+        />  
     
            
            </View>
-           
            </ImageBackground>
         </View>
     )
@@ -127,20 +151,17 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems:"center",
         
-
     },
 
     buttonContainer:{
         flexDirection: 'row'
         
-
     },
     button:{
         backgroundColor: "teal",
         borderRadius: 6,
         padding:5,
         margin:10,
-        
         
     },
     timers:{
@@ -151,5 +172,11 @@ const styles = StyleSheet.create({
         width: Dimensions.get("screen").width,
         height: Dimensions.get("screen").height
 
-    }
+    },
+    renderItem:{
+        backgroundColor: "lightblue",
+        padding: 10,
+        margin:5,
+        borderRadius:6
+    },
 })

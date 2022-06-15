@@ -11,6 +11,7 @@ export const TimerScreen = () => {
         source={require("../assets/backgroundwater.jpg")}
          resizeMode='cover' 
          style={styles.backgroundImage}>
+            <Header />
             <TimerComp />
             </ImageBackground>
         </View>

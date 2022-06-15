@@ -26,13 +26,7 @@ export const findAll = () => {
 
         db.transaction( (transaction) => {
             transaction.executeSql(`SELECT * FROM stopwatch`, [],
-            (transx, res) => {
-                let temp = [];
-                for (let i = 0; i< res.rows.length; i++){
-                    temp.push(res.rows.item(i));
-                    console.log(temp);
-                }
-            },
+            (transx, res) => resolve(res.rows._array),
                 (transx, err) => reject(err)
             )
         })
@@ -48,6 +42,19 @@ export const insert = (strLapTime) => {
         db.transaction( (transaction) => {
             transaction.executeSql(`INSERT INTO stopwatch (laptime)
             VALUES (?)`, [strLapTime],
+            (transx, res) => resolve(res),
+            (transx, err) => reject(err)
+            )
+        })
+    })
+}
+
+
+export const clearLaptimeTable = () => {
+    return new Promise( (resolve, reject) => {
+
+        db.transaction( (transaction) => {
+            transaction.executeSql(`DELETE FROM stopwatch`, [],
             (transx, res) => resolve(res),
             (transx, err) => reject(err)
             )

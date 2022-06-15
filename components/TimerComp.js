@@ -19,8 +19,8 @@ export const TimerComp = () => {
 
       setTimerDuration(textInputValue)
       
-      // SetIsTimerStart(false);
-      // setResetTimer(true);
+      SetIsTimerStart(false);
+      setResetTimer(true);
       // if(textInputValue.length === 0 ){
       //   setTimerDuration(0);
       // } else {
@@ -32,7 +32,6 @@ export const TimerComp = () => {
 
     return(
       <View style={styles.container}>
-        <Text>SMALL SIMPLE FAIL TIMER</Text>
         <TextInput 
         style={styles.textInput} 
         keyboardType="numeric" 
